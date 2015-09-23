@@ -40,6 +40,11 @@
             android:name=".test"
             android:label="@string/app_name" >
         </activity>
+
+        <activity
+            android:name=".showResult"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

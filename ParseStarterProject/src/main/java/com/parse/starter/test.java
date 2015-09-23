@@ -113,7 +113,6 @@ public class test extends ActionBarActivity {
         btnToResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int score = 55555;
                 Intent intent = new Intent(test.this, showResult.class);
                 intent.putExtra("pointS", score);
 

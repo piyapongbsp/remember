@@ -45,6 +45,10 @@
             android:name="com.parse.starter.test"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.parse.starter.showResult"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>
