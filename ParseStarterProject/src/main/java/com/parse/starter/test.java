@@ -1,5 +1,6 @@
 package com.parse.starter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -16,6 +17,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 /**
  * Created by TIW on 9/16/2015.
@@ -23,23 +25,27 @@ import java.util.List;
 public class test extends ActionBarActivity {
 
     Button btnNext;
-    Button btnPrev;
-    TextView txtWord;
-    EditText editSearchEng;
     Button btnSearch;
+    Button btnToResult;
+    EditText editSearchEng;
+    TextView txtWord;
     TextView txtResult;
     TextView txtMatch;
-    List<SetObject> listWord;
 
+
+    List<SetObject> listWord;
+    ArrayList<Integer> listR = new ArrayList<Integer>();
 
 
     int index = 0;
+    int cntR = 0;
+    int score = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.randword_activity);
 
-        int ranMax = getIntent().getIntExtra("btnc", 0);
+        final int ranMax = getIntent().getIntExtra("btnc", 0);
 
 //        ArrayList<String> list = getIntent().getStringArrayListExtra("key");
         Toast.makeText(getApplicationContext(), ""+ranMax, Toast.LENGTH_LONG).show();
@@ -47,11 +53,11 @@ public class test extends ActionBarActivity {
 
         txtWord =  (TextView) findViewById(R.id.txtWord);
         btnNext =  (Button) findViewById(R.id.btnNext);
-        btnPrev =  (Button) findViewById(R.id.btnPrev);
         editSearchEng = (EditText) findViewById(R.id.editSearchEng);
         btnSearch =  (Button) findViewById(R.id.btnSearch);
         txtResult =  (TextView) findViewById(R.id.txtResult);
         txtMatch =   (TextView) findViewById(R.id.txtMatch);
+        btnToResult = (Button) findViewById(R.id.btnToResult);
 
 
 
@@ -60,19 +66,22 @@ public class test extends ActionBarActivity {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnSearch.setVisibility(View.INVISIBLE);
                 txtMatch.setVisibility(View.GONE);
                 txtResult.setVisibility(View.GONE);
                 for (int i = 0; i < listWord.size(); i++) {
-                    SetObject data = listWord.get(index);
+                    SetObject data = listWord.get(listR.get(index));
                     if (data.getJapan().equalsIgnoreCase(editSearchEng.getText().toString())) {
                         txtResult.setText(data.getJapan());
                         txtMatch.setText("Correct!!");
+                        score = score +1;
                         txtMatch.setVisibility(View.VISIBLE);
                         txtResult.setVisibility(View.VISIBLE);
                         break;
                     } else {
                         txtMatch.setText("Wrong!!");
                         txtMatch.setVisibility(View.VISIBLE);
+                        txtResult.setVisibility(View.VISIBLE);
                     }
 
                 }
@@ -81,34 +90,38 @@ public class test extends ActionBarActivity {
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View view) {
-                if (index < listWord.size() - 1) {
-                    btnPrev.setVisibility(View.VISIBLE);
-                    txtWord.setText(listWord.get(++index).getEnglish());
+                txtResult.setVisibility(View.GONE);
+                btnSearch.setVisibility(View.VISIBLE);
+//                editSearchEng.setVisibility(View.GONE);
+                btnToResult.setVisibility(View.INVISIBLE);
+                if (index < ranMax - 1) {
+                    txtWord.setText(listWord.get(listR.get(++index)).getEnglish());  //
+                    txtMatch.setVisibility(View.GONE);
+
+                }
+                if (index == ranMax - 1)
+                    btnNext.setVisibility(View.INVISIBLE);
+                    btnToResult.setVisibility(View.VISIBLE);
                     txtMatch.setVisibility(View.GONE);
                     txtResult.setVisibility(View.GONE);
-                }
-                if (index == listWord.size() - 1)
-                    btnNext.setVisibility(View.INVISIBLE);
-                txtMatch.setVisibility(View.GONE);
-                txtResult.setVisibility(View.GONE);
             }
         });
-        btnPrev.setOnClickListener(new View.OnClickListener() {
+
+
+        btnToResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (index > 0) {
-                    btnNext.setVisibility(View.VISIBLE);
-                    txtWord.setText(listWord.get(--index).getEnglish());
-                    txtMatch.setVisibility(View.GONE);
-                    txtResult.setVisibility(View.GONE);
-                }
-                if (index == 0)
-                    btnPrev.setVisibility(View.INVISIBLE);
-                txtMatch.setVisibility(View.GONE);
-                txtResult.setVisibility(View.GONE);
+                int score = 55555;
+                Intent intent = new Intent(test.this, showResult.class);
+                intent.putExtra("pointS", score);
+
+                startActivity(intent);
+
             }
         });
+
 
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Languages"); // Object      is classname
@@ -117,6 +130,16 @@ public class test extends ActionBarActivity {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> list, ParseException e) {
                 listWord = new ArrayList<SetObject>();
+
+                for (cntR = 0; cntR < list.size() ; cntR++) {
+                    listR.add(cntR);
+                }
+                Collections.shuffle(listR);
+                for (int cntR = 0; cntR < 5; cntR++) {
+                    System.out.println("Random " + listR.get(cntR));
+                }
+
+
                 if (e == null) {
                     for (int i = 0; i < list.size(); i++) {
                         String name = list.get(i).getString("Name"); //get data from column Name
@@ -124,16 +147,16 @@ public class test extends ActionBarActivity {
                         String eng = list.get(i).getString("English");
                         String th = list.get(i).getString("Thai");
 
-                        if (i == 0) txtWord.setText(eng);
 
-                        Log.e("name", name);
-                        Log.e("jap", jap);
-                        Log.e("eng", eng);
-                        Log.e("th", th);
+//                        Log.e("name", name);
+//                        Log.e("jap", jap);
+//                        Log.e("eng", eng);
+//                        Log.e("th", th);
                         SetObject dataObject = new SetObject(name, eng, jap, th);  // create box for 1 roll  --> create dataObject from type SetObject
 
                         listWord.add(dataObject);
                     }
+                    txtWord.setText(listWord.get(listR.get(0)).getEnglish());
                     Log.e("size", list.size() + "");
                     btnSearch.setVisibility(View.VISIBLE);
                 } else {

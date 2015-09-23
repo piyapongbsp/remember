@@ -1548,10 +1548,10 @@ containing a value of this type.
         public static final int beginning=0x7f0c0013;
         public static final int btn10=0x7f0c0051;
         public static final int btn5=0x7f0c0050;
-        public static final int btnNext=0x7f0c0065;
-        public static final int btnPrev=0x7f0c0063;
-        public static final int btnSearch=0x7f0c0060;
-        public static final int button=0x7f0c0068;
+        public static final int btnNext=0x7f0c0060;
+        public static final int btnOK=0x7f0c0068;
+        public static final int btnSearch=0x7f0c0061;
+        public static final int btnToResult=0x7f0c0065;
         public static final int buttonPanel=0x7f0c0036;
         public static final int cancel_action=0x7f0c0053;
         public static final int checkbox=0x7f0c0038;
@@ -1623,9 +1623,9 @@ containing a value of this type.
         public static final int title=0x7f0c002c;
         public static final int title_template=0x7f0c002f;
         public static final int topPanel=0x7f0c002e;
-        public static final int txtMatch=0x7f0c0062;
+        public static final int txtMatch=0x7f0c0063;
         public static final int txtPoint=0x7f0c0067;
-        public static final int txtResult=0x7f0c0061;
+        public static final int txtResult=0x7f0c0062;
         public static final int txtScore=0x7f0c0066;
         public static final int txtWord=0x7f0c0064;
         public static final int up=0x7f0c0008;
