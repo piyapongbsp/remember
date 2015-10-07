@@ -2,6 +2,7 @@ package com.parse.starter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -41,11 +42,13 @@ public class test extends ActionBarActivity {
     int cntR = 0;
     int score = 0;
 
+    int ranMax;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.randword_activity);
 
-        final int ranMax = getIntent().getIntExtra("btnc", 0);
+        ranMax = getIntent().getIntExtra("btnc", 0);
 
 //        ArrayList<String> list = getIntent().getStringArrayListExtra("key");
         Toast.makeText(getApplicationContext(), ""+ranMax, Toast.LENGTH_LONG).show();
@@ -68,7 +71,9 @@ public class test extends ActionBarActivity {
             public void onClick(View view) {
                 btnSearch.setVisibility(View.INVISIBLE);
                 txtMatch.setVisibility(View.GONE);
+
                 txtResult.setVisibility(View.GONE);
+                Handler handler = new Handler();
                 for (int i = 0; i < listWord.size(); i++) {
                     SetObject data = listWord.get(listR.get(index));
                     if (data.getJapan().equalsIgnoreCase(editSearchEng.getText().toString())) {
@@ -77,14 +82,29 @@ public class test extends ActionBarActivity {
                         score = score +1;
                         txtMatch.setVisibility(View.VISIBLE);
                         txtResult.setVisibility(View.VISIBLE);
+                        btnNext.setVisibility(View.INVISIBLE);
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnNextClick();
+                            }
+                        },3000);
                         break;
                     } else {
                         txtMatch.setText("Wrong!!");
                         txtMatch.setVisibility(View.VISIBLE);
                         txtResult.setVisibility(View.VISIBLE);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnNextClick();
+                            }
+                        }, 3000);
                     }
 
                 }
+
 
             }
         });
@@ -92,20 +112,7 @@ public class test extends ActionBarActivity {
             @Override
 
             public void onClick(View view) {
-                txtResult.setVisibility(View.GONE);
-                btnSearch.setVisibility(View.VISIBLE);
-//                editSearchEng.setVisibility(View.GONE);
-                btnToResult.setVisibility(View.INVISIBLE);
-                if (index < ranMax - 1) {
-                    txtWord.setText(listWord.get(listR.get(++index)).getEnglish());  //
-                    txtMatch.setVisibility(View.GONE);
-
-                }
-                if (index == ranMax - 1)
-                    btnNext.setVisibility(View.INVISIBLE);
-                    btnToResult.setVisibility(View.VISIBLE);
-                    txtMatch.setVisibility(View.GONE);
-                    txtResult.setVisibility(View.GONE);
+                btnNextClick();
             }
         });
 
@@ -169,5 +176,22 @@ public class test extends ActionBarActivity {
 
 
 
+    }
+
+    void btnNextClick() {
+        txtResult.setVisibility(View.GONE);
+        btnSearch.setVisibility(View.VISIBLE);
+        editSearchEng.setText("");
+        btnToResult.setVisibility(View.INVISIBLE);
+        if (index < ranMax - 1) {
+            txtWord.setText(listWord.get(listR.get(++index)).getEnglish());  //
+            txtMatch.setVisibility(View.GONE);
+
+        }
+        if (index == ranMax - 1)
+            btnNext.setVisibility(View.INVISIBLE);
+        btnToResult.setVisibility(View.VISIBLE);
+        txtMatch.setVisibility(View.GONE);
+        txtResult.setVisibility(View.GONE);
     }
 }

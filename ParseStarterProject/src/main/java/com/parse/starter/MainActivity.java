@@ -95,6 +95,11 @@ public class MainActivity extends ActionBarActivity {
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
                 Intent intent = new Intent(MainActivity.this, test.class);
                 intent.putExtra("btnc", 5);
 

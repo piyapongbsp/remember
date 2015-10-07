@@ -28,8 +28,8 @@ public class StarterApplication extends Application {
     Parse.enableLocalDatastore(this);
 
     // Add your initialization code here
-    Parse.initialize(this,"23UhKmaNmj4eoJwbTKvuupP1kQNvtnn07lUDf3gU","AaLd6sG0HYYcAQtVEEQHQqPXbd472vMNK6BKYd3S");
-//    Parse.initialize(this,"Tro4CvV8zojnyOMFwTtF3L3hoYiQWfNPttc3v3GG","dVa7LR7SokNeZ0eZloHyelahBDc9dUZWnntbQgf8");
+    Parse.initialize(this,"23UhKmaNmj4eoJwbTKvuupP1kQNvtnn07lUDf3gU","AaLd6sG0HYYcAQtVEEQHQqPXbd472vMNK6BKYd3S"); // tiw
+//    Parse.initialize(this,"Tro4CvV8zojnyOMFwTtF3L3hoYiQWfNPttc3v3GG","dVa7LR7SokNeZ0eZloHyelahBDc9dUZWnntbQgf8"); // vam
 
     ParseUser.enableAutomaticUser();
     ParseACL defaultACL = new ParseACL();
